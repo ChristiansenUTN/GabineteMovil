@@ -1,0 +1,129 @@
+<div class="container-fluid">
+
+  <div class="row mt-2">
+    <div class="col-12">
+      <div class="h3 text-center text-danger">INGRESE VECINOS SIN CONTACTAR</div>
+      <div class="h3 text-center text-info">Hola {{this.visitador}}</div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+
+    <div class="col-lg-5 mt-4">
+
+      <div class="card shadow">
+
+        <div class="card-body">
+
+
+
+          <!-- Formulario de ingreso de calles y alturas -->
+
+          <form id='myForm'>
+
+
+
+            <div class="form-group">
+              <label for="calle">Calle</label>
+              <input type="text" class="form-control"  [formControlName]="myControl" #calle (keyup)='filtroCalle()' required id="calle"
+                placeholder="Ingrese la Calle">
+                <div  >
+              <p *ngFor="let calle of calles" (click)="choice(calle.calle)"> {{calle.calle}} </p>
+            </div>
+          </div>
+
+            <div class="form-group">
+              <label for="altura">Altura</label>
+              <input type="number" class="form-control" #altura required id="altura" placeholder="Ingrese la Altura">
+            </div>
+            <button type="button" (click)='addContact(calle.value, altura.value)' class="btn btn-primary"
+              data-toggle="modal" data-target="#exampleModal" class="btn btn-primary">Guardar </button>
+          </form>
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+    <!-- tabla que muestras datos guardados en la BD -->
+    <div class="col-lg-7 mt-4">
+
+      <table class="table table-hover">
+        <thead class="thead-dark ">
+          <tr>
+            <th scope="col">CALLE</th>
+            <th scope="col">ALTURA</th>
+            <th scope="col">BORRAR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let visita of visitas">
+            <td>{{visita.calle}}</td>
+            <td>{{visita.altura}}</td>
+            <td> <button type='button' class="btn btn-danger" (click)='delete(visita.id)'><i
+                  class="far fa-trash-alt"></i></button> </td>
+        </tbody>
+      </table>
+
+
+    </div>
+
+
+
+
+  </div>
+
+  <!-- Aca ponemos el modal para el registro -->
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Confirmar Datos</h5>
+
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <!-- CUERPO DEL MODAL -->
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">UGC</th>
+                <th scope="col">NOMBRE</th>
+                <th scope="col">CALLE</th>
+                <th scope="col">ALTURA</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <tD>{{this.ugcstorage}}</tD>
+                <td>{{this.visitador}}</td>
+                <td>{{this.calleIngresada}}</td>
+                <td>{{this.alturaIngresada}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- botones modal -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id='cerrarModal' data-dismiss="modal">CERRAR</button>
+          <button type="button" (click)='saveContact()' [disabled]="checkStatus" id='saveContact'
+            class="btn btn-primary">GUARDAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
